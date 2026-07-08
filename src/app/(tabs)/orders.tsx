@@ -1,8 +1,11 @@
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Dimensions, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const isSmallPhone = SCREEN_WIDTH < 376;
 
 const palette = {
   background: '#FFFFFF',
@@ -14,6 +17,8 @@ const palette = {
   green: '#10B981',
   orange: '#F59E0B',
 };
+
+const s = { padH: isSmallPhone ? Spacing.three : Spacing.four };
 
 const ORDERS = [
   {
@@ -52,7 +57,7 @@ export default function OrdersScreen() {
       contentInset={{ bottom: bottomInset }}
       contentContainerStyle={styles.contentContainer}
     >
-      <View style={styles.container}>
+      <View style={[styles.container, { paddingHorizontal: s.padH }]}>
         {/* Header */}
         <View style={styles.header}>
           <ThemedText type="subtitle" style={[styles.title, { color: palette.text }]}>
@@ -104,16 +109,18 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: MaxContentWidth,
     flexGrow: 1,
-    padding: Spacing.four,
+    paddingTop: Spacing.four,
+    paddingBottom: Spacing.four,
     gap: Spacing.four,
   },
   header: {
     alignItems: 'center',
     gap: Spacing.one,
+    paddingTop: Spacing.two,
   },
   title: {
-    fontSize: 28,
-    lineHeight: 36,
+    fontSize: 26,
+    lineHeight: 34,
     fontWeight: 600,
   },
   ordersList: {

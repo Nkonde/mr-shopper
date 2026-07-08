@@ -1,8 +1,11 @@
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Dimensions, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const isSmallPhone = SCREEN_WIDTH < 376;
 
 const palette = {
   background: '#FFFFFF',
@@ -13,6 +16,8 @@ const palette = {
   accent: '#6366F1',
   danger: '#EF4444',
 };
+
+const s = { padH: isSmallPhone ? Spacing.three : Spacing.four };
 
 const PROFILE_SECTIONS = [
   {
@@ -50,7 +55,7 @@ export default function ProfileScreen() {
       contentInset={{ bottom: bottomInset }}
       contentContainerStyle={styles.contentContainer}
     >
-      <View style={styles.container}>
+      <View style={[styles.container, { paddingHorizontal: s.padH }]}>
         {/* Profile Header */}
         <View style={styles.profileHeader}>
           <View style={[styles.avatarLarge, { backgroundColor: palette.accent }]}>
@@ -115,7 +120,8 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: MaxContentWidth,
     flexGrow: 1,
-    padding: Spacing.four,
+    paddingTop: Spacing.four,
+    paddingBottom: Spacing.four,
     gap: Spacing.five,
   },
   profileHeader: {

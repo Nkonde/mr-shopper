@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -9,6 +10,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 
+// --- Responsive helpers ---
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const isSmallPhone = SCREEN_WIDTH < 376;
+
 // --- Brand colors (hardcoded so background stays white regardless of theme) ---
 const palette = {
   background: '#FFFFFF',
@@ -17,6 +22,18 @@ const palette = {
   cardBg: '#F3F4F6',
   cardImageBg: '#E5E7EB',
   accent: '#6366F1',
+};
+
+// --- Responsive size map ---
+const s = {
+  catIcon: isSmallPhone ? 52 : 64,
+  catIconR: isSmallPhone ? 26 : 32,
+  catEmoji: isSmallPhone ? 22 : 28,
+  catFont: isSmallPhone ? 12 : 14,
+  popularImgH: isSmallPhone ? 85 : 100,
+  popularMinW: isSmallPhone ? '100%' : '45%' as any,
+  catMarginR: isSmallPhone ? Spacing.two : Spacing.three,
+  padH: isSmallPhone ? Spacing.three : Spacing.four,
 };
 
 // --- Mock menu data ---
@@ -48,14 +65,14 @@ export default function MenuScreen() {
       contentInset={{ bottom: bottomInset }}
       contentContainerStyle={styles.contentContainer}
     >
-      <View style={styles.container}>
+      <View style={[styles.container, { paddingHorizontal: s.padH }]}>
         {/* Header */}
         <View style={styles.header}>
           <View>
             <ThemedText type="subtitle" style={[styles.greeting, { color: palette.text }]}>
               Hungry?
             </ThemedText>
-            <ThemedText style={[styles.subtitle, { color: palette.textSecondary }]}>
+            <ThemedText style={[styles.subText, { color: palette.textSecondary }]}>
               Order your favourite food
             </ThemedText>
           </View>
@@ -75,7 +92,7 @@ export default function MenuScreen() {
             Categories
           </ThemedText>
           <Pressable>
-            <ThemedText style={{ color: palette.accent, fontWeight: 700, fontSize: 14 }}>
+            <ThemedText style={{ color: palette.accent, fontWeight: 700, fontSize: 13 }}>
               See All
             </ThemedText>
           </Pressable>
@@ -83,11 +100,11 @@ export default function MenuScreen() {
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesRow}>
           {CATEGORIES.map((cat) => (
-            <Pressable key={cat.id} style={styles.categoryCard}>
-              <View style={[styles.categoryIcon, { backgroundColor: cat.color }]}>
-                <ThemedText style={styles.categoryEmoji}>{cat.emoji}</ThemedText>
+            <Pressable key={cat.id} style={[styles.categoryCard, { marginRight: s.catMarginR }]}>
+              <View style={[styles.categoryIcon, { backgroundColor: cat.color, width: s.catIcon, height: s.catIcon, borderRadius: s.catIconR }]}>
+                <ThemedText style={[styles.categoryEmoji, { fontSize: s.catEmoji }]}>{cat.emoji}</ThemedText>
               </View>
-              <ThemedText style={[styles.categoryName, { color: palette.text }]}>
+              <ThemedText style={[styles.categoryName, { color: palette.text, fontSize: s.catFont }]}>
                 {cat.name}
               </ThemedText>
             </Pressable>
@@ -100,7 +117,7 @@ export default function MenuScreen() {
             Popular Near You
           </ThemedText>
           <Pressable>
-            <ThemedText style={{ color: palette.accent, fontWeight: 700, fontSize: 14 }}>
+            <ThemedText style={{ color: palette.accent, fontWeight: 700, fontSize: 13 }}>
               See All
             </ThemedText>
           </Pressable>
@@ -108,8 +125,8 @@ export default function MenuScreen() {
 
         <View style={styles.popularGrid}>
           {POPULAR_ITEMS.map((item) => (
-            <Pressable key={item.id} style={[styles.popularCard, { backgroundColor: palette.cardBg }]}>
-              <View style={[styles.popularImage, { backgroundColor: palette.cardImageBg }]}>
+            <Pressable key={item.id} style={[styles.popularCard, { backgroundColor: palette.cardBg, minWidth: s.popularMinW }]}>
+              <View style={[styles.popularImage, { backgroundColor: palette.cardImageBg, height: s.popularImgH }]}>
                 <ThemedText style={styles.popularEmoji}>🍽️</ThemedText>
               </View>
               <View style={styles.popularInfo}>
@@ -142,7 +159,8 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: MaxContentWidth,
     flexGrow: 1,
-    padding: Spacing.four,
+    paddingTop: Spacing.four,
+    paddingBottom: Spacing.four,
     gap: Spacing.four,
   },
   header: {
@@ -155,7 +173,7 @@ const styles = StyleSheet.create({
     lineHeight: 36,
     fontWeight: 600,
   },
-  subtitle: {
+  subText: {
     fontSize: 14,
     lineHeight: 20,
   },
@@ -172,7 +190,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   searchBar: {
-    paddingVertical: Spacing.two + Spacing.one,
+    paddingVertical: 12,
     paddingHorizontal: Spacing.three,
     borderRadius: Spacing.three,
   },
@@ -193,21 +211,14 @@ const styles = StyleSheet.create({
   categoryCard: {
     alignItems: 'center',
     gap: Spacing.one,
-    marginRight: Spacing.three,
   },
   categoryIcon: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  categoryEmoji: {
-    fontSize: 28,
-  },
+  categoryEmoji: {},
   categoryName: {
     fontWeight: 600,
-    fontSize: 14,
   },
   popularGrid: {
     flexDirection: 'row',
@@ -216,12 +227,10 @@ const styles = StyleSheet.create({
   },
   popularCard: {
     flex: 1,
-    minWidth: '45%',
     borderRadius: Spacing.three,
     overflow: 'hidden',
   },
   popularImage: {
-    height: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },

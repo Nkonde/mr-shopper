@@ -1,8 +1,11 @@
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Dimensions, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const isSmallPhone = SCREEN_WIDTH < 376;
 
 const palette = {
   background: '#FFFFFF',
@@ -11,6 +14,12 @@ const palette = {
   cardBg: '#F3F4F6',
   cardImageBg: '#E5E7EB',
   accent: '#6366F1',
+};
+
+const s = {
+  itemImg: isSmallPhone ? 50 : 60,
+  itemImgR: isSmallPhone ? 8 : Spacing.two,
+  padH: isSmallPhone ? Spacing.three : Spacing.four,
 };
 
 const CART_ITEMS = [
@@ -33,7 +42,7 @@ export default function CartScreen() {
       contentInset={{ bottom: bottomInset }}
       contentContainerStyle={styles.contentContainer}
     >
-      <View style={styles.container}>
+      <View style={[styles.container, { paddingHorizontal: s.padH }]}>
         {/* Header */}
         <View style={styles.header}>
           <ThemedText type="subtitle" style={[styles.title, { color: palette.text }]}>
@@ -48,8 +57,8 @@ export default function CartScreen() {
         <View style={styles.itemsList}>
           {CART_ITEMS.map((item) => (
             <View key={item.id} style={[styles.cartItem, { backgroundColor: palette.cardBg }]}>
-              <View style={[styles.itemImage, { backgroundColor: palette.cardImageBg }]}>
-                <ThemedText style={styles.itemEmoji}>🍽️</ThemedText>
+              <View style={[styles.itemImage, { backgroundColor: palette.cardImageBg, width: s.itemImg, height: s.itemImg, borderRadius: s.itemImgR }]}>
+                <ThemedText style={[styles.itemEmoji, { fontSize: isSmallPhone ? 22 : 24 }]}>🍽️</ThemedText>
               </View>
               <View style={styles.itemDetails}>
                 <ThemedText style={[styles.itemName, { color: palette.text }]}>
@@ -116,16 +125,18 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: MaxContentWidth,
     flexGrow: 1,
-    padding: Spacing.four,
+    paddingTop: Spacing.four,
+    paddingBottom: Spacing.four,
     gap: Spacing.four,
   },
   header: {
     alignItems: 'center',
     gap: Spacing.one,
+    paddingTop: Spacing.two,
   },
   title: {
-    fontSize: 28,
-    lineHeight: 36,
+    fontSize: 26,
+    lineHeight: 34,
     fontWeight: 600,
   },
   itemsList: {
@@ -139,15 +150,10 @@ const styles = StyleSheet.create({
     gap: Spacing.two,
   },
   itemImage: {
-    width: 60,
-    height: 60,
-    borderRadius: Spacing.two,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  itemEmoji: {
-    fontSize: 28,
-  },
+  itemEmoji: {},
   itemDetails: {
     flex: 1,
     gap: Spacing.half,
@@ -180,7 +186,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   itemTotal: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 700,
   },
   summary: {
@@ -203,7 +209,7 @@ const styles = StyleSheet.create({
   },
   checkoutText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 700,
   },
 });

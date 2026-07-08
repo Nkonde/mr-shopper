@@ -1,7 +1,12 @@
-import { Platform, StyleSheet, Text, type TextProps } from 'react-native';
+import { Dimensions, Platform, StyleSheet, Text, type TextProps } from 'react-native';
 
 import { Fonts, ThemeColor } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+
+// --- Responsive scaling ---
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const scale = Math.min(SCREEN_WIDTH / 390, 1.2); // base width iPhone 14
+const fontScale = (size: number) => Math.round(size * scale);
 
 export type ThemedTextProps = TextProps & {
   type?: 'default' | 'title' | 'small' | 'smallBold' | 'subtitle' | 'link' | 'linkPrimary' | 'code';
@@ -32,42 +37,42 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
 
 const styles = StyleSheet.create({
   small: {
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: fontScale(14),
+    lineHeight: fontScale(20),
     fontWeight: 500,
   },
   smallBold: {
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: fontScale(14),
+    lineHeight: fontScale(20),
     fontWeight: 700,
   },
   default: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: fontScale(16),
+    lineHeight: fontScale(24),
     fontWeight: 500,
   },
   title: {
-    fontSize: 48,
+    fontSize: fontScale(36),
     fontWeight: 600,
-    lineHeight: 52,
+    lineHeight: fontScale(40),
   },
   subtitle: {
-    fontSize: 32,
-    lineHeight: 44,
+    fontSize: fontScale(24),
+    lineHeight: fontScale(32),
     fontWeight: 600,
   },
   link: {
-    lineHeight: 30,
-    fontSize: 14,
+    lineHeight: fontScale(30),
+    fontSize: fontScale(14),
   },
   linkPrimary: {
-    lineHeight: 30,
-    fontSize: 14,
+    lineHeight: fontScale(30),
+    fontSize: fontScale(14),
     color: '#3c87f7',
   },
   code: {
     fontFamily: Fonts.mono,
     fontWeight: Platform.select({ android: 700 }) ?? 500,
-    fontSize: 12,
+    fontSize: fontScale(12),
   },
 });
