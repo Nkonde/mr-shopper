@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -29,8 +30,8 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // TODO: Implement authentication logic
-    console.log('Login pressed', { email, password });
+    // Navigate to the menu after login
+    router.replace('/(tabs)/menu');
   };
 
   return (
