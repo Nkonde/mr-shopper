@@ -1,48 +1,107 @@
-import { NativeTabs } from 'expo-router/unstable-native-tabs';
-import { useColorScheme } from 'react-native';
+import { Tabs } from 'expo-router';
+import { StyleSheet, useColorScheme, View } from 'react-native';
 
-import { Colors } from '@/constants/theme';
+import { Colors, Spacing } from '@/constants/theme';
 
 export default function AppTabs() {
   const scheme = useColorScheme();
   const colors = Colors[scheme === 'unspecified' ? 'light' : scheme];
 
   return (
-    <NativeTabs
-      backgroundColor={colors.background}
-      indicatorColor={colors.backgroundElement}
-      labelStyle={{ selected: { color: colors.accent } }}>
-      <NativeTabs.Trigger name="menu">
-        <NativeTabs.Trigger.Label>Menu</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/home.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
-
-      <NativeTabs.Trigger name="cart">
-        <NativeTabs.Trigger.Label>Cart</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/home.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
-
-      <NativeTabs.Trigger name="orders">
-        <NativeTabs.Trigger.Label>Orders</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/explore.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
-
-      <NativeTabs.Trigger name="profile">
-        <NativeTabs.Trigger.Label>Profile</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/explore.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
-    </NativeTabs>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: colors.background,
+          borderTopColor: colors.backgroundSelected,
+          borderTopWidth: 1,
+          paddingBottom: Spacing.one,
+          paddingTop: Spacing.half,
+          height: 60,
+        },
+        tabBarActiveTintColor: colors.accent,
+        tabBarInactiveTintColor: colors.textSecondary,
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: 600,
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="menu"
+        options={{
+          title: 'Menu',
+          tabBarIcon: ({ color }) => (
+            <View style={[styles.iconCircle, { backgroundColor: color + '20' }]}>
+              <View style={[styles.iconDot, { backgroundColor: color }]} />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="cart"
+        options={{
+          title: 'Cart',
+          tabBarIcon: ({ color }) => (
+            <View style={[styles.iconCircle, { backgroundColor: color + '20' }]}>
+              <View style={[styles.iconDotSm, { backgroundColor: color }]} />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="orders"
+        options={{
+          title: 'Orders',
+          tabBarIcon: ({ color }) => (
+            <View style={[styles.iconCircle, { backgroundColor: color + '20' }]}>
+              <View style={[styles.iconSquare, { backgroundColor: color }]} />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color }) => (
+            <View style={[styles.iconCircle, { backgroundColor: color + '20' }]}>
+              <View style={[styles.iconUser, { backgroundColor: color }]} />
+            </View>
+          ),
+        }}
+      />
+    </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  iconCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  iconDotSm: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  iconSquare: {
+    width: 8,
+    height: 8,
+    borderRadius: 1,
+  },
+  iconUser: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginTop: -2,
+  },
+});

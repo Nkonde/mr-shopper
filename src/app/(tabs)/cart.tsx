@@ -1,8 +1,8 @@
-import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { BottomTabInset, Spacing } from '@/constants/theme';
 
 const palette = {
   background: '#FFFFFF',
@@ -21,12 +21,7 @@ const CART_ITEMS = [
 
 export default function CartScreen() {
   const insets = useSafeAreaInsets();
-  const { width: screenWidth } = useWindowDimensions();
   const bottomInset = insets.bottom + BottomTabInset + Spacing.three;
-
-  const isNarrow = screenWidth < 380;
-  const padH = isNarrow ? Spacing.three : Spacing.four;
-  const itemImgSize = isNarrow ? 50 : 60;
 
   const subtotal = CART_ITEMS.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const delivery = 15;
@@ -36,9 +31,8 @@ export default function CartScreen() {
     <ScrollView
       style={[styles.scrollView, { backgroundColor: palette.background }]}
       contentInset={{ bottom: bottomInset }}
-      contentContainerStyle={styles.contentContainer}
     >
-      <View style={[styles.container, { paddingHorizontal: padH }]}>
+      <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
           <ThemedText type="subtitle" style={[styles.title, { color: palette.text }]}>
@@ -54,19 +48,9 @@ export default function CartScreen() {
           {CART_ITEMS.map((item) => (
             <View key={item.id} style={[styles.cartItem, { backgroundColor: palette.cardBg }]}>
               <View
-                style={[
-                  styles.itemImage,
-                  {
-                    backgroundColor: palette.cardImageBg,
-                    width: itemImgSize,
-                    height: itemImgSize,
-                    borderRadius: Spacing.two,
-                  },
-                ]}
+                style={[styles.itemImage, { backgroundColor: palette.cardImageBg }]}
               >
-                <ThemedText style={[styles.itemEmoji, { fontSize: isNarrow ? 22 : 24 }]}>
-                  🍽️
-                </ThemedText>
+                <ThemedText style={styles.itemEmoji}>🍽️</ThemedText>
               </View>
               <View style={styles.itemDetails}>
                 <ThemedText style={[styles.itemName, { color: palette.text }]}>
@@ -126,15 +110,8 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  contentContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
   container: {
-    maxWidth: MaxContentWidth,
-    flexGrow: 1,
-    paddingTop: Spacing.four,
-    paddingBottom: Spacing.four,
+    padding: Spacing.four,
     gap: Spacing.four,
   },
   header: {
@@ -158,10 +135,15 @@ const styles = StyleSheet.create({
     gap: Spacing.two,
   },
   itemImage: {
+    width: 60,
+    height: 60,
+    borderRadius: Spacing.two,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  itemEmoji: {},
+  itemEmoji: {
+    fontSize: 24,
+  },
   itemDetails: {
     flex: 1,
     gap: Spacing.half,

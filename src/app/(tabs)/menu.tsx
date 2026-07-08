@@ -1,14 +1,8 @@
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-  useWindowDimensions,
-} from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { BottomTabInset, Spacing } from '@/constants/theme';
 
 // --- Brand colors ---
 const palette = {
@@ -20,7 +14,6 @@ const palette = {
   accent: '#6366F1',
 };
 
-// --- Mock menu data ---
 const CATEGORIES = [
   { id: '1', name: 'Pizza', emoji: '🍕', color: '#FFE4E1' },
   { id: '2', name: 'Burgers', emoji: '🍔', color: '#FFF3E0' },
@@ -41,34 +34,14 @@ const POPULAR_ITEMS = [
 
 export default function MenuScreen() {
   const insets = useSafeAreaInsets();
-  const { width: screenWidth } = useWindowDimensions();
   const bottomInset = insets.bottom + BottomTabInset + Spacing.three;
-
-  // --- Responsive calculations based on actual screen width ---
-  const isNarrow = screenWidth < 380;
-  const isWide = screenWidth > 600;
-
-  const padH = isNarrow ? Spacing.three : Spacing.four;
-  const gap = isNarrow ? Spacing.three : Spacing.four;
-
-  const catIconSize = isNarrow ? 52 : isWide ? 72 : 64;
-  const catEmojiSize = isNarrow ? 22 : isWide ? 30 : 28;
-  const catFontSize = isNarrow ? 12 : isWide ? 15 : 14;
-  const catMarginR = isNarrow ? Spacing.two : isWide ? Spacing.four : Spacing.three;
-
-  const popularImgH = isNarrow ? 90 : isWide ? 130 : 100;
-  // Two columns: (screenWidth - padding - gap) / 2
-  const contentWidth = Math.min(screenWidth, MaxContentWidth);
-  const popularCardWidth = (contentWidth - padH * 2 - gap) / 2;
-  const popularCardWidthStyle = { width: popularCardWidth };
 
   return (
     <ScrollView
       style={[styles.scrollView, { backgroundColor: palette.background }]}
       contentInset={{ bottom: bottomInset }}
-      contentContainerStyle={styles.contentContainer}
     >
-      <View style={[styles.container, { paddingHorizontal: padH, gap }]}>
+      <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
           <View>
@@ -111,28 +84,14 @@ export default function MenuScreen() {
           horizontal
           showsHorizontalScrollIndicator={false}
           style={styles.categoriesRow}
-          contentContainerStyle={{ gap: catMarginR }}
+          contentContainerStyle={styles.categoriesContent}
         >
           {CATEGORIES.map((cat) => (
             <Pressable key={cat.id} style={styles.categoryCard}>
-              <View
-                style={[
-                  styles.categoryIcon,
-                  {
-                    backgroundColor: cat.color,
-                    width: catIconSize,
-                    height: catIconSize,
-                    borderRadius: catIconSize / 2,
-                  },
-                ]}
-              >
-                <ThemedText style={[styles.categoryEmoji, { fontSize: catEmojiSize }]}>
-                  {cat.emoji}
-                </ThemedText>
+              <View style={[styles.categoryIcon, { backgroundColor: cat.color }]}>
+                <ThemedText style={styles.categoryEmoji}>{cat.emoji}</ThemedText>
               </View>
-              <ThemedText
-                style={[styles.categoryName, { color: palette.text, fontSize: catFontSize }]}
-              >
+              <ThemedText style={[styles.categoryName, { color: palette.text }]}>
                 {cat.name}
               </ThemedText>
             </Pressable>
@@ -154,21 +113,13 @@ export default function MenuScreen() {
           </Pressable>
         </View>
 
-        <View style={[styles.popularGrid, { gap }]}>
+        <View style={styles.popularGrid}>
           {POPULAR_ITEMS.map((item) => (
             <Pressable
               key={item.id}
-              style={[
-                styles.popularCard,
-                { backgroundColor: palette.cardBg, ...popularCardWidthStyle },
-              ]}
+              style={[styles.popularCard, { backgroundColor: palette.cardBg }]}
             >
-              <View
-                style={[
-                  styles.popularImage,
-                  { backgroundColor: palette.cardImageBg, height: popularImgH },
-                ]}
-              >
+              <View style={[styles.popularImage, { backgroundColor: palette.cardImageBg }]}>
                 <ThemedText style={styles.popularEmoji}>🍽️</ThemedText>
               </View>
               <View style={styles.popularInfo}>
@@ -197,15 +148,9 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  contentContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
   container: {
-    maxWidth: MaxContentWidth,
-    flexGrow: 1,
-    paddingTop: Spacing.four,
-    paddingBottom: Spacing.four,
+    padding: Spacing.four,
+    gap: Spacing.four,
   },
   header: {
     flexDirection: 'row',
@@ -252,27 +197,39 @@ const styles = StyleSheet.create({
     marginHorizontal: -Spacing.four,
     paddingHorizontal: Spacing.four,
   },
+  categoriesContent: {
+    gap: Spacing.three,
+  },
   categoryCard: {
     alignItems: 'center',
     gap: Spacing.one,
   },
   categoryIcon: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  categoryEmoji: {},
+  categoryEmoji: {
+    fontSize: 28,
+  },
   categoryName: {
     fontWeight: 600,
+    fontSize: 14,
   },
   popularGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    gap: Spacing.three,
   },
   popularCard: {
+    width: '47.5%',
     borderRadius: Spacing.three,
     overflow: 'hidden',
   },
   popularImage: {
+    height: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },

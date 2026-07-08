@@ -1,8 +1,8 @@
-import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { BottomTabInset, Spacing } from '@/constants/theme';
 
 const palette = {
   background: '#FFFFFF',
@@ -42,17 +42,14 @@ const PROFILE_SECTIONS = [
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
-  const { width: screenWidth } = useWindowDimensions();
   const bottomInset = insets.bottom + BottomTabInset + Spacing.three;
-  const padH = screenWidth < 380 ? Spacing.three : Spacing.four;
 
   return (
     <ScrollView
       style={[styles.scrollView, { backgroundColor: palette.background }]}
       contentInset={{ bottom: bottomInset }}
-      contentContainerStyle={styles.contentContainer}
     >
-      <View style={[styles.container, { paddingHorizontal: padH }]}>
+      <View style={styles.container}>
         {/* Profile Header */}
         <View style={styles.profileHeader}>
           <View style={[styles.avatarLarge, { backgroundColor: palette.accent }]}>
@@ -110,15 +107,8 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  contentContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
   container: {
-    maxWidth: MaxContentWidth,
-    flexGrow: 1,
-    paddingTop: Spacing.four,
-    paddingBottom: Spacing.four,
+    padding: Spacing.four,
     gap: Spacing.five,
   },
   profileHeader: {
