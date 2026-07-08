@@ -1,23 +1,18 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
 import {
-  Dimensions,
   KeyboardAvoidingView,
   Platform,
   Pressable,
   StyleSheet,
   TextInput,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-// --- Responsive ---
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const isSmallPhone = SCREEN_WIDTH < 376;
-const s = { padH: isSmallPhone ? Spacing.four : Spacing.five };
 
 // --- Custom color palette for the login screen ---
 const colors = {
@@ -32,11 +27,14 @@ const colors = {
 };
 
 export default function LoginScreen() {
+  const { width: screenWidth } = useWindowDimensions();
+  const isNarrow = screenWidth < 380;
+  const padH = isNarrow ? Spacing.four : Spacing.five;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Navigate to the menu after login
     router.replace('/(tabs)/menu');
   };
 
@@ -45,7 +43,7 @@ export default function LoginScreen() {
       <KeyboardAvoidingView
         style={styles.keyboardAvoid}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <SafeAreaView style={[styles.safeArea, { paddingHorizontal: s.padH }]}>
+        <SafeAreaView style={[styles.safeArea, { paddingHorizontal: padH }]}>
           <View style={styles.header}>
             <ThemedText
               type="title"

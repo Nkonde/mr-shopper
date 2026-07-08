@@ -1,20 +1,16 @@
 import {
-  Dimensions,
   Pressable,
   ScrollView,
   StyleSheet,
   View,
+  useWindowDimensions,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 
-// --- Responsive helpers ---
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const isSmallPhone = SCREEN_WIDTH < 376;
-
-// --- Brand colors (hardcoded so background stays white regardless of theme) ---
+// --- Brand colors ---
 const palette = {
   background: '#FFFFFF',
   text: '#1A1A2E',
@@ -22,18 +18,6 @@ const palette = {
   cardBg: '#F3F4F6',
   cardImageBg: '#E5E7EB',
   accent: '#6366F1',
-};
-
-// --- Responsive size map ---
-const s = {
-  catIcon: isSmallPhone ? 52 : 64,
-  catIconR: isSmallPhone ? 26 : 32,
-  catEmoji: isSmallPhone ? 22 : 28,
-  catFont: isSmallPhone ? 12 : 14,
-  popularImgH: isSmallPhone ? 85 : 100,
-  popularMinW: isSmallPhone ? '100%' : '45%' as any,
-  catMarginR: isSmallPhone ? Spacing.two : Spacing.three,
-  padH: isSmallPhone ? Spacing.three : Spacing.four,
 };
 
 // --- Mock menu data ---
@@ -57,7 +41,26 @@ const POPULAR_ITEMS = [
 
 export default function MenuScreen() {
   const insets = useSafeAreaInsets();
+  const { width: screenWidth } = useWindowDimensions();
   const bottomInset = insets.bottom + BottomTabInset + Spacing.three;
+
+  // --- Responsive calculations based on actual screen width ---
+  const isNarrow = screenWidth < 380;
+  const isWide = screenWidth > 600;
+
+  const padH = isNarrow ? Spacing.three : Spacing.four;
+  const gap = isNarrow ? Spacing.three : Spacing.four;
+
+  const catIconSize = isNarrow ? 52 : isWide ? 72 : 64;
+  const catEmojiSize = isNarrow ? 22 : isWide ? 30 : 28;
+  const catFontSize = isNarrow ? 12 : isWide ? 15 : 14;
+  const catMarginR = isNarrow ? Spacing.two : isWide ? Spacing.four : Spacing.three;
+
+  const popularImgH = isNarrow ? 90 : isWide ? 130 : 100;
+  // Two columns: (screenWidth - padding - gap) / 2
+  const contentWidth = Math.min(screenWidth, MaxContentWidth);
+  const popularCardWidth = (contentWidth - padH * 2 - gap) / 2;
+  const popularCardWidthStyle = { width: popularCardWidth };
 
   return (
     <ScrollView
@@ -65,11 +68,14 @@ export default function MenuScreen() {
       contentInset={{ bottom: bottomInset }}
       contentContainerStyle={styles.contentContainer}
     >
-      <View style={[styles.container, { paddingHorizontal: s.padH }]}>
+      <View style={[styles.container, { paddingHorizontal: padH, gap }]}>
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <ThemedText type="subtitle" style={[styles.greeting, { color: palette.text }]}>
+            <ThemedText
+              type="subtitle"
+              style={[styles.greeting, { color: palette.text }]}
+            >
               Hungry?
             </ThemedText>
             <ThemedText style={[styles.subText, { color: palette.textSecondary }]}>
@@ -88,7 +94,10 @@ export default function MenuScreen() {
 
         {/* Categories */}
         <View style={styles.sectionHeader}>
-          <ThemedText type="subtitle" style={[styles.sectionTitle, { color: palette.text }]}>
+          <ThemedText
+            type="subtitle"
+            style={[styles.sectionTitle, { color: palette.text }]}
+          >
             Categories
           </ThemedText>
           <Pressable>
@@ -98,13 +107,32 @@ export default function MenuScreen() {
           </Pressable>
         </View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesRow}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.categoriesRow}
+          contentContainerStyle={{ gap: catMarginR }}
+        >
           {CATEGORIES.map((cat) => (
-            <Pressable key={cat.id} style={[styles.categoryCard, { marginRight: s.catMarginR }]}>
-              <View style={[styles.categoryIcon, { backgroundColor: cat.color, width: s.catIcon, height: s.catIcon, borderRadius: s.catIconR }]}>
-                <ThemedText style={[styles.categoryEmoji, { fontSize: s.catEmoji }]}>{cat.emoji}</ThemedText>
+            <Pressable key={cat.id} style={styles.categoryCard}>
+              <View
+                style={[
+                  styles.categoryIcon,
+                  {
+                    backgroundColor: cat.color,
+                    width: catIconSize,
+                    height: catIconSize,
+                    borderRadius: catIconSize / 2,
+                  },
+                ]}
+              >
+                <ThemedText style={[styles.categoryEmoji, { fontSize: catEmojiSize }]}>
+                  {cat.emoji}
+                </ThemedText>
               </View>
-              <ThemedText style={[styles.categoryName, { color: palette.text, fontSize: s.catFont }]}>
+              <ThemedText
+                style={[styles.categoryName, { color: palette.text, fontSize: catFontSize }]}
+              >
                 {cat.name}
               </ThemedText>
             </Pressable>
@@ -113,7 +141,10 @@ export default function MenuScreen() {
 
         {/* Popular Items */}
         <View style={styles.sectionHeader}>
-          <ThemedText type="subtitle" style={[styles.sectionTitle, { color: palette.text }]}>
+          <ThemedText
+            type="subtitle"
+            style={[styles.sectionTitle, { color: palette.text }]}
+          >
             Popular Near You
           </ThemedText>
           <Pressable>
@@ -123,14 +154,28 @@ export default function MenuScreen() {
           </Pressable>
         </View>
 
-        <View style={styles.popularGrid}>
+        <View style={[styles.popularGrid, { gap }]}>
           {POPULAR_ITEMS.map((item) => (
-            <Pressable key={item.id} style={[styles.popularCard, { backgroundColor: palette.cardBg, minWidth: s.popularMinW }]}>
-              <View style={[styles.popularImage, { backgroundColor: palette.cardImageBg, height: s.popularImgH }]}>
+            <Pressable
+              key={item.id}
+              style={[
+                styles.popularCard,
+                { backgroundColor: palette.cardBg, ...popularCardWidthStyle },
+              ]}
+            >
+              <View
+                style={[
+                  styles.popularImage,
+                  { backgroundColor: palette.cardImageBg, height: popularImgH },
+                ]}
+              >
                 <ThemedText style={styles.popularEmoji}>🍽️</ThemedText>
               </View>
               <View style={styles.popularInfo}>
-                <ThemedText style={[styles.itemName, { color: palette.text }]} numberOfLines={1}>
+                <ThemedText
+                  style={[styles.itemName, { color: palette.text }]}
+                  numberOfLines={1}
+                >
                   {item.name}
                 </ThemedText>
                 <ThemedText style={[styles.itemMeta, { color: palette.textSecondary }]}>
@@ -161,7 +206,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingTop: Spacing.four,
     paddingBottom: Spacing.four,
-    gap: Spacing.four,
   },
   header: {
     flexDirection: 'row',
@@ -223,10 +267,8 @@ const styles = StyleSheet.create({
   popularGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: Spacing.three,
   },
   popularCard: {
-    flex: 1,
     borderRadius: Spacing.three,
     overflow: 'hidden',
   },

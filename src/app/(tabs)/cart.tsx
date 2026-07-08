@@ -1,11 +1,8 @@
-import { Dimensions, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const isSmallPhone = SCREEN_WIDTH < 376;
 
 const palette = {
   background: '#FFFFFF',
@@ -16,12 +13,6 @@ const palette = {
   accent: '#6366F1',
 };
 
-const s = {
-  itemImg: isSmallPhone ? 50 : 60,
-  itemImgR: isSmallPhone ? 8 : Spacing.two,
-  padH: isSmallPhone ? Spacing.three : Spacing.four,
-};
-
 const CART_ITEMS = [
   { id: '1', name: 'Margherita Pizza', quantity: 1, price: 85 },
   { id: '2', name: 'Beef Burger', quantity: 2, price: 65 },
@@ -30,7 +21,12 @@ const CART_ITEMS = [
 
 export default function CartScreen() {
   const insets = useSafeAreaInsets();
+  const { width: screenWidth } = useWindowDimensions();
   const bottomInset = insets.bottom + BottomTabInset + Spacing.three;
+
+  const isNarrow = screenWidth < 380;
+  const padH = isNarrow ? Spacing.three : Spacing.four;
+  const itemImgSize = isNarrow ? 50 : 60;
 
   const subtotal = CART_ITEMS.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const delivery = 15;
@@ -42,7 +38,7 @@ export default function CartScreen() {
       contentInset={{ bottom: bottomInset }}
       contentContainerStyle={styles.contentContainer}
     >
-      <View style={[styles.container, { paddingHorizontal: s.padH }]}>
+      <View style={[styles.container, { paddingHorizontal: padH }]}>
         {/* Header */}
         <View style={styles.header}>
           <ThemedText type="subtitle" style={[styles.title, { color: palette.text }]}>
@@ -57,8 +53,20 @@ export default function CartScreen() {
         <View style={styles.itemsList}>
           {CART_ITEMS.map((item) => (
             <View key={item.id} style={[styles.cartItem, { backgroundColor: palette.cardBg }]}>
-              <View style={[styles.itemImage, { backgroundColor: palette.cardImageBg, width: s.itemImg, height: s.itemImg, borderRadius: s.itemImgR }]}>
-                <ThemedText style={[styles.itemEmoji, { fontSize: isSmallPhone ? 22 : 24 }]}>🍽️</ThemedText>
+              <View
+                style={[
+                  styles.itemImage,
+                  {
+                    backgroundColor: palette.cardImageBg,
+                    width: itemImgSize,
+                    height: itemImgSize,
+                    borderRadius: Spacing.two,
+                  },
+                ]}
+              >
+                <ThemedText style={[styles.itemEmoji, { fontSize: isNarrow ? 22 : 24 }]}>
+                  🍽️
+                </ThemedText>
               </View>
               <View style={styles.itemDetails}>
                 <ThemedText style={[styles.itemName, { color: palette.text }]}>
