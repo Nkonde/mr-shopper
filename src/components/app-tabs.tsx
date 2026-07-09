@@ -22,7 +22,7 @@ export default function AppTabs() {
           bottom: 0,
           left: 0,
           right: 0,
-          backgroundColor: '#F3F4F6',
+          backgroundColor: 'rgba(243, 244, 246, 0.82)',
           borderTopWidth: 0,
           elevation: 0,
           paddingBottom: 0,
@@ -135,3 +135,4 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
 });
+
