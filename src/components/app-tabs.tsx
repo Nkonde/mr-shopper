@@ -1,7 +1,14 @@
 import { Tabs } from 'expo-router';
-import { StyleSheet, useColorScheme, View } from 'react-native';
+import { StyleSheet, Text, useColorScheme, View } from 'react-native';
 
-import { Colors, Spacing } from '@/constants/theme';
+import { BrandColors, Colors } from '@/constants/theme';
+
+const TAB_ICONS = {
+  menu: '🍕',
+  cart: '🛒',
+  orders: '📦',
+  profile: '👤',
+} as const;
 
 export default function AppTabs() {
   const scheme = useColorScheme();
@@ -13,17 +20,21 @@ export default function AppTabs() {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: colors.background,
-          borderTopColor: colors.backgroundSelected,
-          borderTopWidth: 1,
-          paddingBottom: Spacing.one,
-          paddingTop: Spacing.half,
-          height: 60,
+          borderTopWidth: 0,
+          elevation: 0,
+          paddingBottom: 0,
+          paddingTop: 0,
+          height: 65,
         },
-        tabBarActiveTintColor: colors.accent,
-        tabBarInactiveTintColor: colors.textSecondary,
+        tabBarActiveTintColor: BrandColors.bluePurple,
+        tabBarInactiveTintColor: BrandColors.grey,
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: 600,
+          marginTop: -2,
+        },
+        tabBarItemStyle: {
+          paddingVertical: 6,
         },
       }}
     >
@@ -31,9 +42,11 @@ export default function AppTabs() {
         name="menu"
         options={{
           title: 'Menu',
-          tabBarIcon: ({ color }) => (
-            <View style={[styles.iconCircle, { backgroundColor: color + '20' }]}>
-              <View style={[styles.iconDot, { backgroundColor: color }]} />
+          tabBarIcon: ({ focused }) => (
+            <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+              <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
+                {TAB_ICONS.menu}
+              </Text>
             </View>
           ),
         }}
@@ -42,9 +55,11 @@ export default function AppTabs() {
         name="cart"
         options={{
           title: 'Cart',
-          tabBarIcon: ({ color }) => (
-            <View style={[styles.iconCircle, { backgroundColor: color + '20' }]}>
-              <View style={[styles.iconDotSm, { backgroundColor: color }]} />
+          tabBarIcon: ({ focused }) => (
+            <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+              <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
+                {TAB_ICONS.cart}
+              </Text>
             </View>
           ),
         }}
@@ -53,9 +68,11 @@ export default function AppTabs() {
         name="orders"
         options={{
           title: 'Orders',
-          tabBarIcon: ({ color }) => (
-            <View style={[styles.iconCircle, { backgroundColor: color + '20' }]}>
-              <View style={[styles.iconSquare, { backgroundColor: color }]} />
+          tabBarIcon: ({ focused }) => (
+            <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+              <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
+                {TAB_ICONS.orders}
+              </Text>
             </View>
           ),
         }}
@@ -64,9 +81,11 @@ export default function AppTabs() {
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color }) => (
-            <View style={[styles.iconCircle, { backgroundColor: color + '20' }]}>
-              <View style={[styles.iconUser, { backgroundColor: color }]} />
+          tabBarIcon: ({ focused }) => (
+            <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+              <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
+                {TAB_ICONS.profile}
+              </Text>
             </View>
           ),
         }}
@@ -76,32 +95,21 @@ export default function AppTabs() {
 }
 
 const styles = StyleSheet.create({
-  iconCircle: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+  iconWrap: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+  iconWrapActive: {
+    backgroundColor: BrandColors.bluePurple + '15',
   },
-  iconDotSm: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+  iconEmoji: {
+    fontSize: 18,
+    opacity: 0.55,
   },
-  iconSquare: {
-    width: 8,
-    height: 8,
-    borderRadius: 1,
-  },
-  iconUser: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginTop: -2,
+  iconEmojiActive: {
+    opacity: 1,
   },
 });
