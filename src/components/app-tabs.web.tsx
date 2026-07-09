@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   innerContainer: {
-    backgroundColor: 'rgba(243, 244, 246, 0.75)',
+    backgroundColor: '#F1F3F5',
     paddingVertical: Spacing.two,
     paddingHorizontal: Spacing.four,
     borderRadius: 28,
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
       web: {
         backdropFilter: 'blur(18px) saturate(1.4)',
         WebkitBackdropFilter: 'blur(18px) saturate(1.4)',
-        boxShadow: '0 -6px 24px rgba(0,0,0,0.14)',
+        boxShadow: '0 -6px 24px rgba(0,0,0,0.12)',
       },
       default: {
         shadowColor: '#000',

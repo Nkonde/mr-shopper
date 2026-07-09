@@ -22,7 +22,7 @@ export default function AppTabs() {
           bottom: 0,
           left: 0,
           right: 0,
-          backgroundColor: 'rgba(243, 244, 246, 0.82)',
+          backgroundColor: '#F1F3F5',
           borderTopWidth: 0,
           elevation: 0,
           paddingBottom: 0,
