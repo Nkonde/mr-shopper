@@ -2,7 +2,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
-import { BottomTabInset, Spacing } from '@/constants/theme';
+import { Spacing } from '@/constants/theme';
 
 const palette = {
   background: '#FFFFFF',
@@ -44,12 +44,12 @@ const ORDERS = [
 
 export default function OrdersScreen() {
   const insets = useSafeAreaInsets();
-  const bottomInset = insets.bottom + BottomTabInset + Spacing.three;
+  const bottomPad = insets.bottom + 80;
 
   return (
     <ScrollView
       style={[styles.scrollView, { backgroundColor: palette.background }]}
-      contentInset={{ bottom: bottomInset }}
+      contentContainerStyle={{ paddingBottom: bottomPad }}
     >
       <View style={styles.container}>
         {/* Header */}

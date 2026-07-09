@@ -2,7 +2,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
-import { BottomTabInset, Spacing } from '@/constants/theme';
+import { Spacing } from '@/constants/theme';
 
 // --- Brand colors ---
 const palette = {
@@ -34,21 +34,18 @@ const POPULAR_ITEMS = [
 
 export default function MenuScreen() {
   const insets = useSafeAreaInsets();
-  const bottomInset = insets.bottom + BottomTabInset + Spacing.three;
+  const bottomPad = insets.bottom + 80;
 
   return (
     <ScrollView
       style={[styles.scrollView, { backgroundColor: palette.background }]}
-      contentInset={{ bottom: bottomInset }}
+      contentContainerStyle={{ paddingBottom: bottomPad }}
     >
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <ThemedText
-              type="subtitle"
-              style={[styles.greeting, { color: palette.text }]}
-            >
+            <ThemedText type="subtitle" style={[styles.greeting, { color: palette.text }]}>
               Hungry?
             </ThemedText>
             <ThemedText style={[styles.subText, { color: palette.textSecondary }]}>
@@ -67,10 +64,7 @@ export default function MenuScreen() {
 
         {/* Categories */}
         <View style={styles.sectionHeader}>
-          <ThemedText
-            type="subtitle"
-            style={[styles.sectionTitle, { color: palette.text }]}
-          >
+          <ThemedText type="subtitle" style={[styles.sectionTitle, { color: palette.text }]}>
             Categories
           </ThemedText>
           <Pressable>
@@ -100,10 +94,7 @@ export default function MenuScreen() {
 
         {/* Popular Items */}
         <View style={styles.sectionHeader}>
-          <ThemedText
-            type="subtitle"
-            style={[styles.sectionTitle, { color: palette.text }]}
-          >
+          <ThemedText type="subtitle" style={[styles.sectionTitle, { color: palette.text }]}>
             Popular Near You
           </ThemedText>
           <Pressable>
@@ -123,10 +114,7 @@ export default function MenuScreen() {
                 <ThemedText style={styles.popularEmoji}>🍽️</ThemedText>
               </View>
               <View style={styles.popularInfo}>
-                <ThemedText
-                  style={[styles.itemName, { color: palette.text }]}
-                  numberOfLines={1}
-                >
+                <ThemedText style={[styles.itemName, { color: palette.text }]} numberOfLines={1}>
                   {item.name}
                 </ThemedText>
                 <ThemedText style={[styles.itemMeta, { color: palette.textSecondary }]}>

@@ -2,7 +2,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
-import { BottomTabInset, Spacing } from '@/constants/theme';
+import { Spacing } from '@/constants/theme';
 
 const palette = {
   background: '#FFFFFF',
@@ -21,7 +21,7 @@ const CART_ITEMS = [
 
 export default function CartScreen() {
   const insets = useSafeAreaInsets();
-  const bottomInset = insets.bottom + BottomTabInset + Spacing.three;
+  const bottomPad = insets.bottom + 80;
 
   const subtotal = CART_ITEMS.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const delivery = 15;
@@ -30,7 +30,7 @@ export default function CartScreen() {
   return (
     <ScrollView
       style={[styles.scrollView, { backgroundColor: palette.background }]}
-      contentInset={{ bottom: bottomInset }}
+      contentContainerStyle={{ paddingBottom: bottomPad }}
     >
       <View style={styles.container}>
         {/* Header */}
@@ -47,9 +47,7 @@ export default function CartScreen() {
         <View style={styles.itemsList}>
           {CART_ITEMS.map((item) => (
             <View key={item.id} style={[styles.cartItem, { backgroundColor: palette.cardBg }]}>
-              <View
-                style={[styles.itemImage, { backgroundColor: palette.cardImageBg }]}
-              >
+              <View style={[styles.itemImage, { backgroundColor: palette.cardImageBg }]}>
                 <ThemedText style={styles.itemEmoji}>🍽️</ThemedText>
               </View>
               <View style={styles.itemDetails}>
