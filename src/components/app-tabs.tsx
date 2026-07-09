@@ -22,7 +22,7 @@ export default function AppTabs() {
           bottom: 0,
           left: 0,
           right: 0,
-          backgroundColor: '#E5E7EB',
+          backgroundColor: '#2D2D2D',
           borderTopWidth: 0,
           elevation: 0,
           paddingBottom: 0,
@@ -40,8 +40,8 @@ export default function AppTabs() {
             },
           }),
         },
-        tabBarActiveTintColor: BrandColors.bluePurple,
-        tabBarInactiveTintColor: BrandColors.grey,
+        tabBarActiveTintColor: '#818CF8',
+        tabBarInactiveTintColor: '#9CA3AF',
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: 600,
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   iconEmoji: {
     fontSize: 20,
-    opacity: 0.5,
+    opacity: 0.7,
   },
   iconEmojiActive: {
     opacity: 1,

@@ -49,7 +49,7 @@ export function TabButton({ children, isFocused, icon, ...props }: TabTriggerSlo
       </View>
       <ThemedText
         type="small"
-        style={[styles.tabLabel, { color: isFocused ? BrandColors.bluePurple : BrandColors.grey }]}
+        style={[styles.tabLabel, { color: isFocused ? '#818CF8' : '#9CA3AF' }]}
       >
         {children}
       </ThemedText>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   innerContainer: {
-    backgroundColor: '#E5E7EB',
+    backgroundColor: '#2D2D2D',
     paddingVertical: Spacing.two,
     paddingHorizontal: Spacing.four,
     borderRadius: 28,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
   iconEmoji: {
     fontSize: 20,
-    opacity: 0.5,
+    opacity: 0.7,
   },
   iconEmojiActive: {
     opacity: 1,
