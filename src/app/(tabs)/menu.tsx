@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -52,9 +53,12 @@ export default function MenuScreen() {
               Order your favourite food
             </ThemedText>
           </View>
-          <View style={[styles.avatar, { backgroundColor: palette.accent }]}>
+          <Pressable
+            style={[styles.avatar, { backgroundColor: palette.accent }]}
+            onPress={() => router.push('/(tabs)/profile')}
+          >
             <ThemedText style={styles.avatarText}>TN</ThemedText>
-          </View>
+          </Pressable>
         </View>
 
         {/* Search Bar */}

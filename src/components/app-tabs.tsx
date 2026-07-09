@@ -7,7 +7,6 @@ const TAB_ICONS = {
   menu: '🍕',
   cart: '🛒',
   orders: '📦',
-  profile: '👤',
 } as const;
 
 export default function AppTabs() {
@@ -101,16 +100,8 @@ export default function AppTabs() {
       <Tabs.Screen
         name="profile"
         options={{
+          href: null,
           title: 'Profile',
-          tabBarIcon: ({ focused }) => (
-            <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
-              <View style={[styles.iconRing, focused && styles.iconRingActive]}>
-                <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
-                  {TAB_ICONS.profile}
-                </Text>
-              </View>
-            </View>
-          ),
         }}
       />
     </Tabs>
