@@ -31,12 +31,12 @@ export default function AppTabs() {
           ...Platform.select({
             ios: {
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: -4 },
-              shadowOpacity: 0.08,
-              shadowRadius: 12,
+              shadowOffset: { width: 0, height: -6 },
+              shadowOpacity: 0.18,
+              shadowRadius: 20,
             },
             android: {
-              elevation: 12,
+              elevation: 20,
             },
           }),
         },

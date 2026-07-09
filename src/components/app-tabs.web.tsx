@@ -95,13 +95,13 @@ const styles = StyleSheet.create({
       web: {
         backdropFilter: 'blur(18px) saturate(1.4)',
         WebkitBackdropFilter: 'blur(18px) saturate(1.4)',
-        boxShadow: '0 -4px 20px rgba(0,0,0,0.06)',
+        boxShadow: '0 -6px 24px rgba(0,0,0,0.14)',
       },
       default: {
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.08,
-        shadowRadius: 16,
+        shadowOffset: { width: 0, height: -6 },
+        shadowOpacity: 0.18,
+        shadowRadius: 20,
       },
     }),
   },
@@ -135,3 +135,4 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
 });
+
