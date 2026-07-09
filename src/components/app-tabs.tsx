@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { StyleSheet, Text, useColorScheme, View } from 'react-native';
+import { Platform, StyleSheet, Text, useColorScheme, View } from 'react-native';
 
 import { BrandColors, Colors } from '@/constants/theme';
 
@@ -19,12 +19,27 @@ export default function AppTabs() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: colors.background,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
           borderTopWidth: 0,
           elevation: 0,
           paddingBottom: 0,
           paddingTop: 0,
-          height: 65,
+          height: 72,
+          ...Platform.select({
+            ios: {
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: -4 },
+              shadowOpacity: 0.08,
+              shadowRadius: 12,
+            },
+            android: {
+              elevation: 12,
+            },
+          }),
         },
         tabBarActiveTintColor: BrandColors.bluePurple,
         tabBarInactiveTintColor: BrandColors.grey,
@@ -34,7 +49,7 @@ export default function AppTabs() {
           marginTop: -2,
         },
         tabBarItemStyle: {
-          paddingVertical: 6,
+          paddingVertical: 8,
         },
       }}
     >
@@ -44,9 +59,11 @@ export default function AppTabs() {
           title: 'Menu',
           tabBarIcon: ({ focused }) => (
             <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
-              <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
-                {TAB_ICONS.menu}
-              </Text>
+              <View style={[styles.iconRing, focused && styles.iconRingActive]}>
+                <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
+                  {TAB_ICONS.menu}
+                </Text>
+              </View>
             </View>
           ),
         }}
@@ -57,9 +74,11 @@ export default function AppTabs() {
           title: 'Cart',
           tabBarIcon: ({ focused }) => (
             <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
-              <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
-                {TAB_ICONS.cart}
-              </Text>
+              <View style={[styles.iconRing, focused && styles.iconRingActive]}>
+                <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
+                  {TAB_ICONS.cart}
+                </Text>
+              </View>
             </View>
           ),
         }}
@@ -70,9 +89,11 @@ export default function AppTabs() {
           title: 'Orders',
           tabBarIcon: ({ focused }) => (
             <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
-              <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
-                {TAB_ICONS.orders}
-              </Text>
+              <View style={[styles.iconRing, focused && styles.iconRingActive]}>
+                <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
+                  {TAB_ICONS.orders}
+                </Text>
+              </View>
             </View>
           ),
         }}
@@ -83,9 +104,11 @@ export default function AppTabs() {
           title: 'Profile',
           tabBarIcon: ({ focused }) => (
             <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
-              <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
-                {TAB_ICONS.profile}
-              </Text>
+              <View style={[styles.iconRing, focused && styles.iconRingActive]}>
+                <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>
+                  {TAB_ICONS.profile}
+                </Text>
+              </View>
             </View>
           ),
         }}
@@ -96,18 +119,26 @@ export default function AppTabs() {
 
 const styles = StyleSheet.create({
   iconWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconWrapActive: {},
+  iconRing: {
     width: 32,
     height: 32,
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconWrapActive: {
-    backgroundColor: BrandColors.bluePurple + '15',
+  iconRingActive: {
+    backgroundColor: BrandColors.bluePurple + '18',
   },
   iconEmoji: {
-    fontSize: 18,
-    opacity: 0.55,
+    fontSize: 20,
+    opacity: 0.5,
   },
   iconEmojiActive: {
     opacity: 1,

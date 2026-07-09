@@ -6,12 +6,11 @@ import {
   TabTrigger,
   TabTriggerSlotProps,
 } from 'expo-router/ui';
-import { Pressable, StyleSheet, Text, useColorScheme, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { ThemedText } from './themed-text';
-import { ThemedView } from './themed-view';
 
-import { BrandColors, Colors, MaxContentWidth, Spacing } from '@/constants/theme';
+import { BrandColors, Spacing } from '@/constants/theme';
 
 const TAB_ICONS: Record<string, string> = {
   menu: '🍕',
@@ -47,7 +46,7 @@ export default function AppTabs() {
 export function TabButton({ children, isFocused, icon, ...props }: TabTriggerSlotProps & { icon?: string }) {
   return (
     <Pressable {...props} style={({ pressed }) => [styles.tabBtn, pressed && styles.pressed]}>
-      <View style={[styles.iconWrap, isFocused && styles.iconWrapActive]}>
+      <View style={[styles.iconRing, isFocused && styles.iconRingActive]}>
         <Text style={[styles.iconEmoji, isFocused && styles.iconEmojiActive]}>
           {icon ? TAB_ICONS[icon] : '•'}
         </Text>
@@ -63,14 +62,11 @@ export function TabButton({ children, isFocused, icon, ...props }: TabTriggerSlo
 }
 
 export function CustomTabList(props: TabListProps) {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === 'unspecified' ? 'light' : scheme];
-
   return (
     <View {...props} style={styles.tabListContainer}>
-      <ThemedView type="backgroundElement" style={styles.innerContainer}>
+      <View style={styles.innerContainer}>
         {props.children}
-      </ThemedView>
+      </View>
     </View>
   );
 }
@@ -78,42 +74,59 @@ export function CustomTabList(props: TabListProps) {
 const styles = StyleSheet.create({
   tabListContainer: {
     position: 'absolute',
-    width: '100%',
+    bottom: 0,
+    left: 0,
+    right: 0,
     paddingHorizontal: Spacing.three,
-    paddingBottom: Spacing.two,
+    paddingBottom: Spacing.three,
+    paddingTop: Spacing.two,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
   },
   innerContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.78)',
     paddingVertical: Spacing.two,
-    paddingHorizontal: Spacing.five,
-    borderRadius: Spacing.five,
+    paddingHorizontal: Spacing.four,
+    borderRadius: 28,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: Spacing.three,
-    maxWidth: MaxContentWidth,
+    gap: Spacing.four,
+    maxWidth: 400,
     width: '100%',
+    ...Platform.select({
+      web: {
+        backdropFilter: 'blur(18px) saturate(1.4)',
+        WebkitBackdropFilter: 'blur(18px) saturate(1.4)',
+        boxShadow: '0 -4px 20px rgba(0,0,0,0.06)',
+      },
+      default: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -4 },
+        shadowOpacity: 0.08,
+        shadowRadius: 16,
+      },
+    }),
   },
   tabBtn: {
     alignItems: 'center',
-    gap: Spacing.half,
+    gap: 2,
     paddingHorizontal: Spacing.two,
   },
-  iconWrap: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+  iconRing: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconWrapActive: {
-    backgroundColor: BrandColors.bluePurple + '15',
+  iconRingActive: {
+    backgroundColor: BrandColors.bluePurple + '18',
   },
   iconEmoji: {
-    fontSize: 18,
-    opacity: 0.55,
+    fontSize: 20,
+    opacity: 0.5,
   },
   iconEmojiActive: {
     opacity: 1,
