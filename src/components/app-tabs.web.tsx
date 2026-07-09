@@ -49,7 +49,7 @@ export function TabButton({ children, isFocused, icon, ...props }: TabTriggerSlo
       </View>
       <ThemedText
         type="small"
-        style={[styles.tabLabel, { color: isFocused ? '#818CF8' : '#9CA3AF' }]}
+        style={[styles.tabLabel, { color: isFocused ? BrandColors.bluePurple : BrandColors.grey }]}
       >
         {children}
       </ThemedText>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   innerContainer: {
-    backgroundColor: '#2D2D2D',
+    backgroundColor: 'rgba(255, 255, 255, 0.72)',
     paddingVertical: Spacing.two,
     paddingHorizontal: Spacing.four,
     borderRadius: 28,
@@ -93,15 +93,15 @@ const styles = StyleSheet.create({
     width: '100%',
     ...Platform.select({
       web: {
-        backdropFilter: 'blur(18px) saturate(1.4)',
-        WebkitBackdropFilter: 'blur(18px) saturate(1.4)',
-        boxShadow: '0 -6px 24px rgba(0,0,0,0.12)',
+        backdropFilter: 'blur(22px) saturate(1.5)',
+        WebkitBackdropFilter: 'blur(22px) saturate(1.5)',
+        boxShadow: '0 0 30px rgba(0,0,0,0.10), 0 -4px 20px rgba(0,0,0,0.08)',
       },
       default: {
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: -6 },
-        shadowOpacity: 0.18,
-        shadowRadius: 20,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.15,
+        shadowRadius: 24,
       },
     }),
   },
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
   iconEmoji: {
     fontSize: 20,
-    opacity: 0.7,
+    opacity: 0.5,
   },
   iconEmojiActive: {
     opacity: 1,
@@ -135,4 +135,5 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
 });
+
 

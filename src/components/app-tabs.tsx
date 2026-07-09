@@ -22,7 +22,7 @@ export default function AppTabs() {
           bottom: 0,
           left: 0,
           right: 0,
-          backgroundColor: '#2D2D2D',
+          backgroundColor: 'rgba(255, 255, 255, 0.78)',
           borderTopWidth: 0,
           elevation: 0,
           paddingBottom: 0,
@@ -31,17 +31,17 @@ export default function AppTabs() {
           ...Platform.select({
             ios: {
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: -6 },
-              shadowOpacity: 0.18,
-              shadowRadius: 20,
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 0.15,
+              shadowRadius: 24,
             },
             android: {
-              elevation: 20,
+              elevation: 16,
             },
           }),
         },
-        tabBarActiveTintColor: '#818CF8',
-        tabBarInactiveTintColor: '#9CA3AF',
+        tabBarActiveTintColor: BrandColors.bluePurple,
+        tabBarInactiveTintColor: BrandColors.grey,
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: 600,
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   iconEmoji: {
     fontSize: 20,
-    opacity: 0.7,
+    opacity: 0.5,
   },
   iconEmojiActive: {
     opacity: 1,
