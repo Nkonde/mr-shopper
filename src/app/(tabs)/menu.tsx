@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
+import { useShop } from '@/context/shop-context';
 
 // --- Brand colors ---
 const palette = {
@@ -27,13 +28,14 @@ const CATEGORIES = [
 ];
 
 const POPULAR_ITEMS = [
-  { id: '1', name: 'Margherita Pizza', price: 'R85', rating: 4.8, time: '25-35 min' },
-  { id: '2', name: 'Beef Burger', price: 'R65', rating: 4.6, time: '15-20 min' },
-  { id: '3', name: 'Chicken Wrap', price: 'R55', rating: 4.7, time: '10-15 min' },
-  { id: '4', name: 'Bowl of Fries', price: 'R35', rating: 4.5, time: '10 min' },
+  { id: '1', name: 'Margherita Pizza', price: 85, rating: 4.8, time: '25-35 min' },
+  { id: '2', name: 'Beef Burger', price: 65, rating: 4.6, time: '15-20 min' },
+  { id: '3', name: 'Chicken Wrap', price: 55, rating: 4.7, time: '10-15 min' },
+  { id: '4', name: 'Bowl of Fries', price: 35, rating: 4.5, time: '10 min' },
 ];
 
 export default function MenuScreen() {
+  const { addToCart } = useShop();
   const insets = useSafeAreaInsets();
   const bottomPad = insets.bottom + 80;
 
@@ -113,6 +115,7 @@ export default function MenuScreen() {
             <Pressable
               key={item.id}
               style={[styles.popularCard, { backgroundColor: palette.cardBg }]}
+              onPress={() => addToCart(item)}
             >
               <View style={[styles.popularImage, { backgroundColor: palette.cardImageBg }]}>
                 <ThemedText style={styles.popularEmoji}>🍽️</ThemedText>
@@ -125,8 +128,9 @@ export default function MenuScreen() {
                   ⭐ {item.rating} • {item.time}
                 </ThemedText>
                 <ThemedText style={[styles.itemPrice, { color: palette.accent }]}>
-                  {item.price}
+                  R{item.price}
                 </ThemedText>
+                <ThemedText style={styles.addText}>Tap to add</ThemedText>
               </View>
             </Pressable>
           ))}
@@ -244,4 +248,5 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     fontSize: 14,
   },
+  addText: { color: palette.textSecondary, fontSize: 11 },
 });

@@ -3,6 +3,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
+import { useShop } from '@/context/shop-context';
+import { router } from 'expo-router';
 
 const palette = {
   background: '#FFFFFF',
@@ -13,18 +15,13 @@ const palette = {
   accent: '#6366F1',
 };
 
-const CART_ITEMS = [
-  { id: '1', name: 'Margherita Pizza', quantity: 1, price: 85 },
-  { id: '2', name: 'Beef Burger', quantity: 2, price: 65 },
-  { id: '3', name: 'Bowl of Fries', quantity: 1, price: 35 },
-];
-
 export default function CartScreen() {
+  const { cart, changeQuantity, checkout } = useShop();
   const insets = useSafeAreaInsets();
   const bottomPad = insets.bottom + 80;
 
-  const subtotal = CART_ITEMS.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const delivery = 15;
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const delivery = cart.length ? 15 : 0;
   const total = subtotal + delivery;
 
   return (
@@ -39,13 +36,14 @@ export default function CartScreen() {
             Your Cart
           </ThemedText>
           <ThemedText style={{ color: palette.textSecondary, fontSize: 14 }}>
-            {CART_ITEMS.length} item{CART_ITEMS.length !== 1 ? 's' : ''}
+            {cart.reduce((sum, item) => sum + item.quantity, 0)} items
           </ThemedText>
         </View>
 
         {/* Cart Items */}
         <View style={styles.itemsList}>
-          {CART_ITEMS.map((item) => (
+          {!cart.length && <ThemedText style={styles.empty}>Your cart is empty. Add something from Menu.</ThemedText>}
+          {cart.map((item) => (
             <View key={item.id} style={[styles.cartItem, { backgroundColor: palette.cardBg }]}>
               <View style={[styles.itemImage, { backgroundColor: palette.cardImageBg }]}>
                 <ThemedText style={styles.itemEmoji}>🍽️</ThemedText>
@@ -58,13 +56,13 @@ export default function CartScreen() {
                   R{item.price} each
                 </ThemedText>
                 <View style={styles.quantityRow}>
-                  <Pressable style={[styles.qtyBtn, { backgroundColor: palette.cardImageBg }]}>
+                  <Pressable onPress={() => changeQuantity(item.id, -1)} style={[styles.qtyBtn, { backgroundColor: palette.cardImageBg }]}> 
                     <ThemedText style={[styles.qtyBtnText, { color: palette.text }]}>−</ThemedText>
                   </Pressable>
                   <ThemedText style={[styles.quantity, { color: palette.text }]}>
                     {item.quantity}
                   </ThemedText>
-                  <Pressable style={[styles.qtyBtn, { backgroundColor: palette.accent }]}>
+                  <Pressable onPress={() => changeQuantity(item.id, 1)} style={[styles.qtyBtn, { backgroundColor: palette.accent }]}> 
                     <ThemedText style={[styles.qtyBtnText, { color: '#FFFFFF' }]}>+</ThemedText>
                   </Pressable>
                 </View>
@@ -96,7 +94,7 @@ export default function CartScreen() {
         </View>
 
         {/* Checkout Button */}
-        <Pressable style={[styles.checkoutBtn, { backgroundColor: palette.accent }]}>
+        <Pressable disabled={!cart.length} onPress={() => { if (checkout()) router.replace('/(tabs)/orders'); }} style={[styles.checkoutBtn, { backgroundColor: palette.accent, opacity: cart.length ? 1 : 0.5 }]}> 
           <ThemedText style={styles.checkoutText}>Proceed to Checkout • R{total}</ThemedText>
         </Pressable>
       </View>
@@ -200,4 +198,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 700,
   },
+  empty: { color: palette.textSecondary, textAlign: 'center', paddingVertical: Spacing.five },
 });

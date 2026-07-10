@@ -16,6 +16,7 @@ const TAB_ICONS: Record<string, string> = {
   menu: '🍕',
   cart: '🛒',
   orders: '📦',
+  profile: '👤',
 };
 
 export default function AppTabs() {
@@ -32,6 +33,9 @@ export default function AppTabs() {
           </TabTrigger>
           <TabTrigger name="orders" href="/orders" asChild>
             <TabButton icon="orders">Orders</TabButton>
+          </TabTrigger>
+          <TabTrigger name="profile" href="/profile" asChild>
+            <TabButton icon="profile">Profile</TabButton>
           </TabTrigger>
         </CustomTabList>
       </TabList>
@@ -135,5 +139,4 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
 });
-
 

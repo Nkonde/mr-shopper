@@ -3,6 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
+import { useShop } from '@/context/shop-context';
 
 const palette = {
   background: '#FFFFFF',
@@ -15,34 +16,8 @@ const palette = {
   orange: '#F59E0B',
 };
 
-const ORDERS = [
-  {
-    id: '1',
-    items: 'Margherita Pizza, Bowl of Fries',
-    total: 120,
-    status: 'Delivered',
-    date: 'Today, 14:30',
-    statusColor: palette.green,
-  },
-  {
-    id: '2',
-    items: 'Beef Burger x2, Chicken Wrap',
-    total: 185,
-    status: 'In Transit',
-    date: 'Today, 12:15',
-    statusColor: palette.accent,
-  },
-  {
-    id: '3',
-    items: 'Sushi Set, Miso Soup',
-    total: 145,
-    status: 'Preparing',
-    date: 'Today, 11:00',
-    statusColor: palette.orange,
-  },
-];
-
 export default function OrdersScreen() {
+  const { orders } = useShop();
   const insets = useSafeAreaInsets();
   const bottomPad = insets.bottom + 80;
 
@@ -64,14 +39,15 @@ export default function OrdersScreen() {
 
         {/* Order List */}
         <View style={styles.ordersList}>
-          {ORDERS.map((order) => (
+          {!orders.length && <ThemedText style={styles.empty}>No orders yet. Your completed checkout will appear here.</ThemedText>}
+          {orders.map((order) => (
             <Pressable key={order.id} style={[styles.orderCard, { backgroundColor: palette.cardBg }]}>
               <View style={styles.orderHeader}>
                 <ThemedText style={[styles.orderItems, { color: palette.text }]} numberOfLines={1}>
                   {order.items}
                 </ThemedText>
-                <View style={[styles.statusBadge, { backgroundColor: order.statusColor + '20' }]}>
-                  <ThemedText style={[styles.statusText, { color: order.statusColor }]}>
+                <View style={[styles.statusBadge, { backgroundColor: palette.orange + '20' }]}> 
+                  <ThemedText style={[styles.statusText, { color: palette.orange }]}> 
                     {order.status}
                   </ThemedText>
                 </View>
@@ -143,4 +119,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  empty: { color: palette.textSecondary, textAlign: 'center', paddingVertical: Spacing.five },
 });

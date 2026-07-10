@@ -3,6 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
+import { router } from 'expo-router';
 
 const palette = {
   background: '#FFFFFF',
@@ -93,7 +94,7 @@ export default function ProfileScreen() {
         ))}
 
         {/* Sign Out */}
-        <Pressable style={[styles.signOutBtn, { borderColor: palette.danger }]}>
+        <Pressable onPress={() => router.replace('/login')} style={[styles.signOutBtn, { borderColor: palette.danger }]}> 
           <ThemedText style={{ color: palette.danger, fontWeight: 700, fontSize: 16 }}>
             Sign Out
           </ThemedText>
