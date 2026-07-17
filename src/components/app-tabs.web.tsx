@@ -14,9 +14,9 @@ import { BrandColors, Spacing } from '@/constants/theme';
 
 const TAB_ICONS: Record<string, string> = {
   menu: '🍕',
+  grocery: '🧺',
   cart: '🛒',
   orders: '📦',
-  profile: '👤',
 };
 
 export default function AppTabs() {
@@ -31,11 +31,11 @@ export default function AppTabs() {
           <TabTrigger name="cart" href="/cart" asChild>
             <TabButton icon="cart">Cart</TabButton>
           </TabTrigger>
+          <TabTrigger name="grocery" href="/grocery" asChild>
+            <TabButton icon="grocery">Grocery</TabButton>
+          </TabTrigger>
           <TabTrigger name="orders" href="/orders" asChild>
             <TabButton icon="orders">Orders</TabButton>
-          </TabTrigger>
-          <TabTrigger name="profile" href="/profile" asChild>
-            <TabButton icon="profile">Profile</TabButton>
           </TabTrigger>
         </CustomTabList>
       </TabList>
@@ -139,4 +139,3 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
 });
-

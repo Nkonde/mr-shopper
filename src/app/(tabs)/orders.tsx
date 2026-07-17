@@ -6,10 +6,10 @@ import { Spacing } from '@/constants/theme';
 import { useShop } from '@/context/shop-context';
 
 const palette = {
-  background: '#FFFFFF',
+  background: '#F8F9FD',
   text: '#1A1A2E',
   textSecondary: '#6B7280',
-  cardBg: '#F3F4F6',
+  cardBg: '#FFFFFF',
   cardImageBg: '#E5E7EB',
   accent: '#6366F1',
   green: '#10B981',
@@ -77,21 +77,21 @@ const styles = StyleSheet.create({
     gap: Spacing.four,
   },
   header: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: Spacing.one,
     paddingTop: Spacing.two,
   },
   title: {
-    fontSize: 26,
+    fontSize: 30,
     lineHeight: 34,
-    fontWeight: 600,
+    fontWeight: 800,
   },
   ordersList: {
     gap: Spacing.three,
   },
   orderCard: {
     padding: Spacing.three,
-    borderRadius: Spacing.three,
+    borderRadius: 20,
     gap: Spacing.two,
   },
   orderHeader: {

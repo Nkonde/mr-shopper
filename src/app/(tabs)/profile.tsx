@@ -6,10 +6,10 @@ import { Spacing } from '@/constants/theme';
 import { router } from 'expo-router';
 
 const palette = {
-  background: '#FFFFFF',
+  background: '#F8F9FD',
   text: '#1A1A2E',
   textSecondary: '#6B7280',
-  cardBg: '#F3F4F6',
+  cardBg: '#FFFFFF',
   cardImageBg: '#E5E7EB',
   accent: '#6366F1',
   danger: '#EF4444',
@@ -93,6 +93,17 @@ export default function ProfileScreen() {
           </View>
         ))}
 
+        <View style={styles.section}>
+          <ThemedText style={[styles.sectionTitle, { color: palette.textSecondary }]}>Switch mode</ThemedText>
+          <View style={styles.modeGrid}>
+            <Pressable onPress={() => router.replace('/driver')} style={[styles.modeCard, { backgroundColor: '#EAF2FF' }]}>
+              <ThemedText style={styles.modeIcon}>🛵</ThemedText>
+              <ThemedText style={[styles.modeTitle, { color: '#2563EB' }]}>Driver</ThemedText>
+              <ThemedText style={styles.modeText}>Shop and deliver orders</ThemedText>
+            </Pressable>
+          </View>
+        </View>
+
         {/* Sign Out */}
         <Pressable onPress={() => router.replace('/login')} style={[styles.signOutBtn, { borderColor: palette.danger }]}> 
           <ThemedText style={{ color: palette.danger, fontWeight: 700, fontSize: 16 }}>
@@ -145,7 +156,7 @@ const styles = StyleSheet.create({
     marginLeft: Spacing.one,
   },
   sectionCard: {
-    borderRadius: Spacing.three,
+    borderRadius: 20,
     overflow: 'hidden',
   },
   menuItem: {
@@ -170,4 +181,9 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.three,
     alignItems: 'center',
   },
+  modeGrid: { flexDirection: 'row', gap: Spacing.three },
+  modeCard: { flex: 1, borderRadius: 20, padding: Spacing.three, gap: Spacing.one },
+  modeIcon: { fontSize: 28, marginBottom: Spacing.one },
+  modeTitle: { fontSize: 15, fontWeight: 800 },
+  modeText: { color: palette.textSecondary, fontSize: 11 },
 });

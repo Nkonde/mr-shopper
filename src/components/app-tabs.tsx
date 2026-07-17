@@ -5,9 +5,9 @@ import { BrandColors, Colors } from '@/constants/theme';
 
 const TAB_ICONS = {
   menu: '🍕',
+  grocery: '🧺',
   cart: '🛒',
   orders: '📦',
-  profile: '👤',
 } as const;
 
 export default function AppTabs() {
@@ -23,18 +23,18 @@ export default function AppTabs() {
           bottom: 0,
           left: 0,
           right: 0,
-          backgroundColor: 'rgba(255, 255, 255, 0.78)',
+          backgroundColor: '#FFFFFF',
           borderTopWidth: 0,
           elevation: 0,
           paddingBottom: 0,
           paddingTop: 0,
-          height: 72,
+          height: 78,
           ...Platform.select({
             ios: {
               shadowColor: '#000',
               shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.15,
-              shadowRadius: 24,
+              shadowOpacity: 0.08,
+              shadowRadius: 18,
             },
             android: {
               elevation: 16,
@@ -65,6 +65,15 @@ export default function AppTabs() {
                 </Text>
               </View>
             </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="grocery"
+        options={{
+          title: 'Grocery',
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.iconWrap}><View style={[styles.iconRing, focused && styles.iconRingActive]}><Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>{TAB_ICONS.grocery}</Text></View></View>
           ),
         }}
       />
@@ -101,14 +110,8 @@ export default function AppTabs() {
       <Tabs.Screen
         name="profile"
         options={{
+          href: null,
           title: 'Profile',
-          tabBarIcon: ({ focused }) => (
-            <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
-              <View style={[styles.iconRing, focused && styles.iconRingActive]}>
-                <Text style={[styles.iconEmoji, focused && styles.iconEmojiActive]}>{TAB_ICONS.profile}</Text>
-              </View>
-            </View>
-          ),
         }}
       />
     </Tabs>
@@ -132,7 +135,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   iconRingActive: {
-    backgroundColor: BrandColors.bluePurple + '18',
+    backgroundColor: BrandColors.bluePurple,
   },
   iconEmoji: {
     fontSize: 20,
@@ -140,5 +143,6 @@ const styles = StyleSheet.create({
   },
   iconEmojiActive: {
     opacity: 1,
+    transform: [{ scale: 0.9 }],
   },
 });
